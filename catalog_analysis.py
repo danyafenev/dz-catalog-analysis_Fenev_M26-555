@@ -60,3 +60,36 @@ def duration_in_hours(minutes: int) -> str:
 
 # Этап 2. Условия и match.
 
+def rating_tier(rating: float) -> str:
+    
+    if rating >= 9:
+        ans = 'шедевр'
+    
+    elif rating < 9 and rating >= 7:
+        ans = "хорошо"
+    
+    elif rating < 7:
+        ans = "средне" if rating >= 5 else "слабо"
+    
+    return ans
+
+def decade_label(year: int) -> str:
+    
+    match year:
+
+        case _ if year > 2020:
+            
+            label = "новые"
+
+        case _ if year >= 2015:
+            
+            label = "недавние"
+
+        case _ if year < 2015:
+            
+            label = "старые"
+    
+    return label
+
+# Этап 3. Циклы
+
