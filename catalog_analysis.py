@@ -93,3 +93,32 @@ def decade_label(year: int) -> str:
 
 # Этап 3. Циклы
 
+for movie in movies:
+    if "comedy" in movie["genres"]:
+        continue
+    else:
+        print(movie["title"])
+
+i = 0
+
+while i <= len(movies) - 1:
+    
+    if movies[i]["rating"] > 9.0:
+        print(movies[i]["title"])
+        break
+    
+    i += 1
+    
+else:
+    print("Шедевров не найдено")
+
+def count_long_movies(movies: list[dict], threshhold = 120) -> int:
+    
+    count = 0
+    for movie in movies:
+        if movie["duration_min"] > threshhold:
+            count += 1
+    
+    return count
+
+# 4 Этап. 
