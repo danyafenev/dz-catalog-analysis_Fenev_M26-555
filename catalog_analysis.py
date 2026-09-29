@@ -121,4 +121,20 @@ def count_long_movies(movies: list[dict], threshhold = 120) -> int:
     
     return count
 
-# 4 Этап. 
+# 4 Этап. Строки
+
+def normalize_title(title: str) -> str:
+    
+    return " ".join(word[0].upper() + word[1:] for word in title.split())
+
+def make_slug(title: str) -> str:
+    
+    return title.lower().replace(" ", "-")
+
+def format_report_line(movie: dict) -> str:
+    
+    return (
+        f'"{movie["title"]}" ({movie["year"]}) – {movie["rating"]}/10, '
+        f'{duration_in_hours(movie["duration_min"])}, '
+        f'жанры: {", ".join(sorted(movie["genres"]))}'
+    )
