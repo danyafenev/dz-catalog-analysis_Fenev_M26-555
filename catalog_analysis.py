@@ -187,3 +187,23 @@ avg_rating = average_rating(movies)
 dict_rating = {movie["title"]: movie["rating"] for movie in movies
                if movie["rating"] > avg_rating}
 
+# Этап 7. Множества
+
+def all_genres(movies: list[dict]) -> set:
+    
+    genres = set()
+    
+    for movie in movies:
+        
+        genres = genres | movie["genres"]
+    
+    return genres
+
+def common_actors(movie1: dict, movie2: dict) -> set:
+    
+    return set(movie1["actors"]) & set(movie2["actors"])
+
+def genres_only_in_one(movies_a: list[dict], movies_b: list[dict]) -> set[str]:
+    
+    return all_genres(movies_a) - all_genres(movies_b)
+
