@@ -152,3 +152,38 @@ def top_n_by_rating(movies: list[dict], n=3) -> list[tuple]:
     movies_and_rating = [(movie["title"], movie["rating"]) for movie in movies]
     
     return sorted(movies_and_rating, key=lambda movie: movie[1], reverse=True)[:n]
+
+# Этап 6. Словари
+
+def count_by_genre(movies: list[dict]) -> dict:
+    
+    counts = {}
+    
+    for movie in movies:
+        for genre in movie["genres"]:
+            
+            counts[genre] = counts.get(genre, 0) + 1
+    
+    return counts
+
+def actor_filmography(movies: list[dict]) -> dict:
+    
+    filmography = {}
+    
+    for movie in movies:
+        for actor in movie["actors"]:
+            
+            if actor not in filmography:
+                filmography[actor] = []
+            
+            filmography[actor].append(movie["title"])
+    
+    return filmography
+
+# Словарь со с рейтингом фильмов выше чем среднее.
+
+avg_rating = average_rating(movies)
+
+dict_rating = {movie["title"]: movie["rating"] for movie in movies
+               if movie["rating"] > avg_rating}
+
