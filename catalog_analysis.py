@@ -260,7 +260,7 @@ def build_report(movies: list[dict]) -> None:
         
         print(f"  {genre} — {count}")
     
-    print(f"\nВсе жанры каталога: {", ".join(sorted(all_genres(movies)))}")
+    print(f"\nВсе жанры каталога: {", ".join(sorted(all_genres(movies)))}\n")
 
 if __name__ == "__main__":
     build_report(movies)
