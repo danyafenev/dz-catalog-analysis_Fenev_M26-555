@@ -93,24 +93,31 @@ def decade_label(year: int) -> str:
 
 # Этап 3. Циклы
 
-for movie in movies:
-    if "comedy" in movie["genres"]:
-        continue
+def task_from_stage_3(movies: list[dict]) -> None:
+    """
+    Эта функция для того, что фильмы, которые
+    не относятся к комедия не печатались в отчет.
+    А также, чтобы фильмы с рейтингом больше 9
+    тоже не печатались в отчет.
+    """
+    for movie in movies:
+        if "comedy" in movie["genres"]:
+            continue
+        else:
+            print(movie["title"])
+
+    i = 0
+
+    while i <= len(movies) - 1:
+        
+        if movies[i]["rating"] > 9.0:
+            print(movies[i]["title"])
+            break
+        
+        i += 1
+        
     else:
-        print(movie["title"])
-
-i = 0
-
-while i <= len(movies) - 1:
-    
-    if movies[i]["rating"] > 9.0:
-        print(movies[i]["title"])
-        break
-    
-    i += 1
-    
-else:
-    print("Шедевров не найдено")
+        print("Шедевров не найдено")
 
 def count_long_movies(movies: list[dict], threshhold = 120) -> int:
     
@@ -134,7 +141,8 @@ def make_slug(title: str) -> str:
 def format_report_line(movie: dict) -> str:
     
     return (
-        f'"{movie["title"]}" ({movie["year"]}) – {movie["rating"]}/10, '
+        f'"{normalize_title(movie["title"])}"'
+        f' ({movie["year"]}) – {movie["rating"]}/10, '
         f'{duration_in_hours(movie["duration_min"])}, '
         f'жанры: {", ".join(sorted(movie["genres"]))}'
     )
@@ -207,3 +215,51 @@ def genres_only_in_one(movies_a: list[dict], movies_b: list[dict]) -> set[str]:
     
     return all_genres(movies_a) - all_genres(movies_b)
 
+# Этап 8. Итераторы и генераторы. 
+
+def iter_high_rated(movies: list[dict], min_rating=8.0):
+    
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
+
+def demonstrate_generator(movies: list[dict]) -> None:
+    """
+    Эта фукнция для того, чтобы не печатались фильмы в отчет
+    """
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+
+total_duration = sum(movie["duration_min"] 
+                    for movie in movies if movie["rating"] > 7)
+
+# Этап 9. Формирование итогово отчета.
+
+def build_report(movies: list[dict]) -> None:
+    
+    print(f"Средний рейтинг: {average_rating(movies)}")
+    print(f"Средний возраст фильмов: {catalog_age_stats(movies)[2]} лет")
+    
+    print("\nТоп-3 фильма:")
+
+    top_titles = titles_sorted_by_rating(movies)[:3]
+
+    for title in top_titles:
+        for movie in movies:
+            if movie["title"] == title:
+                print(f"  {format_report_line(movie)}")
+                break
+        
+    print("\nФильмов по жанрам:")
+    
+    for genre, count in sorted(
+        count_by_genre(movies).items(),
+        key=lambda item: item[1],
+        reverse=True):
+        
+        print(f"  {genre} - {count}")
+    
+    print(f"\nВсе жанры каталога: {", ".join(sorted(all_genres(movies)))}")
+
+if __name__ == "__main__":
+    build_report(movies)
