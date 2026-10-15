@@ -221,9 +221,6 @@ def iter_high_rated(movies: list[dict], min_rating=8.0):
         if movie["rating"] >= min_rating:
             yield movie
 
-total_duration = sum(movie["duration_min"] 
-                    for movie in movies if movie["rating"] > 7)
-
 def demonstrate_generator(movies: list[dict]) -> None:
     """
     Эта фукнция для того, чтобы не печатались фильмы в отчет 
@@ -231,6 +228,9 @@ def demonstrate_generator(movies: list[dict]) -> None:
     """
     for movie in iter_high_rated(movies):
         print(format_report_line(movie))
+    
+    total_duration = sum(movie["duration_min"] 
+                    for movie in movies if movie["rating"] > 7)
     
     print(total_duration)
 
