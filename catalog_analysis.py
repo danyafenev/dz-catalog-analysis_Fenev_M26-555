@@ -95,10 +95,8 @@ def decade_label(year: int) -> str:
 
 def task_from_stage_3(movies: list[dict]) -> None:
     """
-    Эта функция для того, что фильмы, которые
-    не относятся к комедия не печатались в отчет.
-    А также, чтобы фильмы с рейтингом больше 9
-    тоже не печатались в отчет.
+    Эта функция для демонстрации работы циклов и
+    вывода и выводов результата отдельно от отчета.
     """
     for movie in movies:
         if "comedy" in movie["genres"]:
@@ -119,11 +117,11 @@ def task_from_stage_3(movies: list[dict]) -> None:
     else:
         print("Шедевров не найдено")
 
-def count_long_movies(movies: list[dict], threshhold = 120) -> int:
+def count_long_movies(movies: list[dict], threshold = 120) -> int:
     
     count = 0
     for movie in movies:
-        if movie["duration_min"] > threshhold:
+        if movie["duration_min"] > threshold:
             count += 1
     
     return count
@@ -142,7 +140,7 @@ def format_report_line(movie: dict) -> str:
     
     return (
         f'"{normalize_title(movie["title"])}"'
-        f' ({movie["year"]}) – {movie["rating"]}/10, '
+        f' ({movie["year"]}) — {movie["rating"]}/10, '
         f'{duration_in_hours(movie["duration_min"])}, '
         f'жанры: {", ".join(sorted(movie["genres"]))}'
     )
@@ -223,15 +221,18 @@ def iter_high_rated(movies: list[dict], min_rating=8.0):
         if movie["rating"] >= min_rating:
             yield movie
 
+total_duration = sum(movie["duration_min"] 
+                    for movie in movies if movie["rating"] > 7)
+
 def demonstrate_generator(movies: list[dict]) -> None:
     """
-    Эта фукнция для того, чтобы не печатались фильмы в отчет
+    Эта фукнция для того, чтобы не печатались фильмы в отчет 
+    и показать вывод для сумарного кол-ва минут
     """
     for movie in iter_high_rated(movies):
         print(format_report_line(movie))
-
-total_duration = sum(movie["duration_min"] 
-                    for movie in movies if movie["rating"] > 7)
+    
+    print(total_duration)
 
 # Этап 9. Формирование итогово отчета.
 
@@ -257,7 +258,7 @@ def build_report(movies: list[dict]) -> None:
         key=lambda item: item[1],
         reverse=True):
         
-        print(f"  {genre} - {count}")
+        print(f"  {genre} — {count}")
     
     print(f"\nВсе жанры каталога: {", ".join(sorted(all_genres(movies)))}")
 
